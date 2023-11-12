@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotelstask/shared/color.dart';
 import 'package:csc_picker/csc_picker.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 class HomeScreen extends StatefulWidget {
   static const String routeName = "homeScreen";
   static final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
@@ -12,7 +13,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String countryValue = "";
-
+  List<String> roomList = ['1 Room,2 Adult , 0 Children',"onchange"];
+  final _openDropDownProgKey = GlobalKey<DropdownSearchState<int>>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,27 +160,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: ThemeColors.WhiteColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          child: TextFormField(
-                            controller: TextEditingController(),
-                            textAlign: TextAlign.center,
-                            validator: (value) {
-                              if (value?.trim() == "" || value == null) {
-                                return 'Please Enter The City';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              label: Text("Select The City"),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color:ThemeColors.MainColor2)),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color:ThemeColors.MainColor2)),
+                          child: DropdownSearch<String>(
+                            items: roomList,
+                            dropdownDecoratorProps: DropDownDecoratorProps(
+                              dropdownSearchDecoration: InputDecoration(
+                                labelText: "Select Room Option",
+                                hintText: roomList.first,
+                              ),
                             ),
-                          ),),
 
+                          ),
 
+                        )
                       ],
                     ),
                   ),
