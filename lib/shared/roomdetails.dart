@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:hotelstask/shared/color.dart';
 
@@ -13,6 +14,22 @@ class RoomDetails extends StatefulWidget {
 class _RoomDetailsState extends State<RoomDetails> {
   int adultnum = 1;
   int childnum = 0;
+  List<String> childYears = [
+    "1 Year",
+    "2 Years",
+    "3 Years",
+    "4 Years",
+    "5 Years",
+    "6 Years",
+    "7 Years",
+    "8 Years",
+    "9 Years",
+    "10 Years",
+    "11 Years",
+    "12 Years",
+    "13 Years",
+    "14 Years",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +155,33 @@ class _RoomDetailsState extends State<RoomDetails> {
               )
             ],
           ),
+          ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: childnum,
+            itemBuilder: (context, index) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex:4,
+                      child: Text("Age of Child ${index + 1}")),
+                  Expanded(
+                    child: DropdownSearch<String>(
+                      items: childYears,
+                      dropdownDecoratorProps: DropDownDecoratorProps(
+                        dropdownSearchDecoration: InputDecoration(
+                          labelText: "Select Child Age",
+                          hintText: childYears.last,
+                        ),
+                      ),
 
+                    ),
+                  ),
+                ],
+              );
+            },
+          )
         ],
       ),
     );

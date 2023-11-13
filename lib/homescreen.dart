@@ -17,8 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String countryValue = "";
   DateRange? selectedDateRange;
-  List<String> roomList = ['1 Room,2 Adult , 0 Children',"onchange"];
-  final _openDropDownProgKey = GlobalKey<DropdownSearchState<int>>();
+  List<String> roomList = ['1 Room,2 Adult , 0 Children',"2 Room,3 Adult , 2 Children'"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,9 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  // decoration: BoxDecoration(
-                  //
-                  // ),
                   padding: EdgeInsets.all(5),
                   child: Text("Hotel Search",style: TextStyle(color: ThemeColors.WhiteColor,fontSize: 18),),
                   color: ThemeColors.MainColor,
@@ -194,7 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     decoration: BoxDecoration(
                       color: ThemeColors.ButtonColor,
                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
-                      ), child: Text("Search",style: TextStyle(color: ThemeColors.WhiteColor,fontSize: 18),),
+                      ), child: Row(
+                        children: [
+                          Text("Search",style: TextStyle(color: ThemeColors.WhiteColor,fontSize: 18),),
+                          Icon(Icons.search,color: Colors.white,)
+                        ],
+                      ),
                     ),
                 ),
 
@@ -226,7 +227,7 @@ class _HomeScreenState extends State<HomeScreen> {
       [bool doubleMonth = true]) =>
       DateRangePickerWidget(
         doubleMonth: doubleMonth,
-        maximumDateRangeLength: 10,
+        maximumDateRangeLength: 30,
         quickDateRanges: [
           QuickDateRange(dateRange: null, label: "Remove date range"),
           QuickDateRange(
@@ -267,7 +268,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         minimumDateRangeLength: 2,
         initialDateRange: selectedDateRange,
-        disabledDates: [DateTime(2023, 11, 20)],
         initialDisplayedDate:
         selectedDateRange?.start ?? DateTime(2023, 11, 20),
         onDateRangeChanged: onDateRangeChanged,
