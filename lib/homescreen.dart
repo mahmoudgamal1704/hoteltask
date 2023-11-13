@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotelstask/bottomsheet.dart';
 import 'package:hotelstask/shared/color.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -30,12 +31,16 @@ class _HomeScreenState extends State<HomeScreen> {
              height: double.infinity,
            ),
           Container(
-            margin: EdgeInsets.only(left: 20,bottom: 20),
+            margin: EdgeInsets.only(left: 20,right: 20),
             // padding: EdgeInsets.only(left: 20,right: 20) ,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
+                  alignment: Alignment.centerLeft,
+                  // decoration: BoxDecoration(
+                  //
+                  // ),
                   padding: EdgeInsets.all(5),
                   child: Text("Hotel Search",style: TextStyle(color: ThemeColors.WhiteColor,fontSize: 18),),
                   color: ThemeColors.MainColor,
@@ -74,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   borderSide: BorderSide(color:ThemeColors.MainColor2)),
                           ),
                         ),),
+                        SizedBox(height: 5,),
                         // Date RaNge
                         Container(
                           padding: EdgeInsets.all(5),
@@ -95,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             pickerBuilder: datePickerBuilder,
                           ),
                         ),
+                        SizedBox(height: 5,),
                         //DropDownList
                         Container(
                           padding: EdgeInsets.all(5),
@@ -151,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           ),
                           ),
+                        SizedBox(height: 5,),
                         //DropDown2
                         Container(
                           padding: EdgeInsets.all(5),
@@ -162,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             items: roomList,
                             dropdownDecoratorProps: DropDownDecoratorProps(
                               dropdownSearchDecoration: InputDecoration(
-                                labelText: "Select Room Option",
+                                labelText: roomList.first,
                                 hintText: roomList.first,
                               ),
                             ),
@@ -174,13 +182,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: ThemeColors.ButtonColor,
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
-                    ), child: Text("Search",style: TextStyle(color: ThemeColors.WhiteColor,fontSize: 18),),
-                  ),
+                SizedBox(height: 5,),
+                GestureDetector(
+                  onTap: (){
+                    openBottomSheet(context);
+
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: ThemeColors.ButtonColor,
+                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
+                      ), child: Text("Search",style: TextStyle(color: ThemeColors.WhiteColor,fontSize: 18),),
+                    ),
+                ),
 
 
               ],
@@ -190,6 +206,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
 ],
       ),
+    );
+  }
+  void openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return Padding(
+          padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: ReservationOption(),
+        );
+      },
     );
   }
   Widget datePickerBuilder(
@@ -236,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
-        minimumDateRangeLength: 3,
+        minimumDateRangeLength: 2,
         initialDateRange: selectedDateRange,
         disabledDates: [DateTime(2023, 11, 20)],
         initialDisplayedDate:
