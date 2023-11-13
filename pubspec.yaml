@@ -38,6 +38,7 @@ dependencies:
   country_picker: ^2.0.22
   csc_picker: ^0.2.7
   dropdown_search: ^5.0.6
+  flutter_date_range_picker: ^0.0.14
 
 dev_dependencies:
   flutter_test:

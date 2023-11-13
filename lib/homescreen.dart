@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hotelstask/shared/color.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 class HomeScreen extends StatefulWidget {
   static const String routeName = "homeScreen";
   static final GlobalKey<FormState> frmKey = GlobalKey<FormState>();
@@ -11,8 +12,10 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
   String countryValue = "";
+  DateRange? selectedDateRange;
   List<String> roomList = ['1 Room,2 Adult , 0 Children',"onchange"];
   final _openDropDownProgKey = GlobalKey<DropdownSearchState<int>>();
   @override
@@ -78,25 +81,20 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: ThemeColors.WhiteColor,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          child: TextFormField(
-                            controller: TextEditingController(),
-                            textAlign: TextAlign.center,
-                            validator: (value) {
-                              if (value?.trim() == "" || value == null) {
-                                return 'Please Enter The City';
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              label: Text("Select The City"),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color:ThemeColors.MainColor2)),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: BorderSide(color:ThemeColors.MainColor2)),
+                          child:DateRangeField(
+                            decoration: const InputDecoration(
+                              label: Text("Please select a date range"),
+                              hintText: 'Please select a date range',
                             ),
-                          ),),
+                            onDateRangeSelected: (DateRange? value) {
+                              setState(() {
+                                selectedDateRange = value;
+                              });
+                            },
+                            selectedDateRange: selectedDateRange,
+                            pickerBuilder: datePickerBuilder,
+                          ),
+                        ),
                         //DropDownList
                         Container(
                           padding: EdgeInsets.all(5),
@@ -194,4 +192,55 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+  Widget datePickerBuilder(
+      BuildContext context, dynamic Function(DateRange?) onDateRangeChanged,
+      [bool doubleMonth = true]) =>
+      DateRangePickerWidget(
+        doubleMonth: doubleMonth,
+        maximumDateRangeLength: 10,
+        quickDateRanges: [
+          QuickDateRange(dateRange: null, label: "Remove date range"),
+          QuickDateRange(
+            label: 'Last 3 days',
+            dateRange: DateRange(
+              DateTime.now().subtract(const Duration(days: 3)),
+              DateTime.now(),
+            ),
+          ),
+          QuickDateRange(
+            label: 'Last 7 days',
+            dateRange: DateRange(
+              DateTime.now().subtract(const Duration(days: 7)),
+              DateTime.now(),
+            ),
+          ),
+          QuickDateRange(
+            label: 'Last 30 days',
+            dateRange: DateRange(
+              DateTime.now().subtract(const Duration(days: 30)),
+              DateTime.now(),
+            ),
+          ),
+          QuickDateRange(
+            label: 'Last 90 days',
+            dateRange: DateRange(
+              DateTime.now().subtract(const Duration(days: 90)),
+              DateTime.now(),
+            ),
+          ),
+          QuickDateRange(
+            label: 'Last 180 days',
+            dateRange: DateRange(
+              DateTime.now().subtract(const Duration(days: 180)),
+              DateTime.now(),
+            ),
+          ),
+        ],
+        minimumDateRangeLength: 3,
+        initialDateRange: selectedDateRange,
+        disabledDates: [DateTime(2023, 11, 20)],
+        initialDisplayedDate:
+        selectedDateRange?.start ?? DateTime(2023, 11, 20),
+        onDateRangeChanged: onDateRangeChanged,
+      );
 }
